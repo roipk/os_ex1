@@ -13,15 +13,15 @@ int main()
     char buf[BUFSIZ];
     char temp[510];
 	printf("%s@%s>",getpwuid(geteuid())->pw_name,getcwd(buf, sizeof(buf)));
-    fgets(temp,sizeof(temp),stdin);
-    printf("\n");    
+    fgets(temp,sizeof(temp),stdin);   
     while(strcmp(temp,"done\n"))
     {
-        printf("%s\n", temp);
         printf("%s@%s>",getpwuid(geteuid())->pw_name,getcwd(buf, sizeof(buf)));
         fgets(temp,sizeof(temp),stdin); 
     }
-    printf("bye bye :)\n");
+    printf("Num of cmd: \n");
+    printf("Cmd length: \n");
+    printf("bye !\n");
 
 return 0;
 }
