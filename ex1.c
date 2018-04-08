@@ -1,3 +1,11 @@
+/****************************
+*   UserName:    roimd      *
+*   Name:   Roi Madmon      *
+*   ID:     203485164       *
+*   Exercise 1              *
+****************************/
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -10,43 +18,7 @@
 
 
 
-/*
-int NumberOfApostrophes(char *word)
-{
-	int counter = 0,i=0,numword=0;
-    int len = strlen(word);
-    
-    
-    while(i<len)
-    {
-        if(word[i]=='\"')
-       {   
-          if(counter==1)
-          {
-            counter--;
-            numword++;
-          }
-          else
-                counter++;         
-        i++;
-    }
-    if(counter == 0)
-    {
-      char** arr;
-      arr=(char**)malloc((num_word+1)*sizeof(char*));
-        if(arr == NULL)
-        {
-            printf("ERR\n");
-            exit(1);
-        }
-      counter = NumberOfWards(word,"\n\"");
-      
-      return counter;
-    }	 
-    return -1;
-}
-*/
-
+//The function counts how many arguments were entered from the writing line
 int NumberOfWards(char *word, char *x)
 {
    int n, count=0;
@@ -75,8 +47,8 @@ int NumberOfWards(char *word, char *x)
 }
 
 
-
-
+/*-------------------------------------------------------------------------------*/
+//The function inserts the entered arguments into an array
 void EnterWordToArray(char** arr,char *word,char *x)
 {
     char *ptr;
@@ -92,21 +64,18 @@ void EnterWordToArray(char** arr,char *word,char *x)
     }
 }
 
-void printarray(char** arr,int num_word)
-{
-    for(int j=0;j<num_word;j++)
-        printf("arr[%d] = %s\n",j,arr[j]);
-}
+
+/*-------------------------------------------------------------------------------*/
+//The function frees the array
 void freearr(char** arr,int num_word)
 {
     for(int j=0;j<num_word;j++)
         free(arr[j]);
     free(arr);
-    //printf("is free\n");
 }
 
 
-//int argc,char* argv[]
+/*-------------------------------------------------------------------------------*/
 int main()
 {
 
@@ -122,8 +91,7 @@ int main()
     char temp[510];
     char tempsize[510],tempApostropy[510];
     char **arr;
-    //char* ptr;
-    int j;//,k;
+    int j;
    
 
 	printf("%s@%s>",pwp->pw_name,getcwd(buf, sizeof(buf)));
@@ -135,9 +103,7 @@ int main()
 
         strcpy(tempsize,temp);
         strcpy(tempApostropy,temp);
-        //k=NumberOfWards(tempsize,"\"\n");
         j=NumberOfWards(tempsize," \"\n");
-        //printf("word=%d\n",k);
         arr=(char**)malloc((j+1)*sizeof(char*));
         if(arr == NULL)
         {
@@ -183,56 +149,9 @@ int main()
     freearr(arr,j);
     printf("Num of cmd: %lu\n",Num_of_cmd);
     printf("Cmd length: %lu\n",Cmd_length);
-    printf("bye !\n");
+    printf("Bye !\n");
     
 
 return 0;
 }
 
-
-
-
-
-
-
-
-
-
-/*
-
-
-
-        len=strlen(ptr);
-        k = 0;
-        while(k<len)
-        {
-    printf("in\n");
-            if(ptr[k]=='\"')
-            {    
-               // append(temp,sizeof(temp),'');
-                if(counter==1)
-                    counter--;
-                else
-                    counter++;         
-            }
-            else            
-               {
-                    printf("ptr ==> %c\n",ptr[k]);
-                    printf("s ==> %s\n",s);
-                }
-            k++;
-        }
-        if(counter==0)
-        {
-            
-            j=strlen(temp);
-            arr[i]=(char*)malloc(j*sizeof(char));
-		    strcpy(arr[i],temp);
-            printf("arr[%d] = %s\n",i,temp);            
-            temp=NULL;
-        }
-        i++;
-		ptr = strtok(NULL,x);	
-	} 
-    arr[i] = NULL;
-*/
