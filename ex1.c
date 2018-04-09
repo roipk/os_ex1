@@ -47,21 +47,61 @@ int NumberOfWards(char *word, char *x)
 }
 
 
+
+
+void arguments(char** arr,char *word, int i)
+{
+    int j=0;  
+    char *temp, *ptr;
+    temp=(char*)malloc(strlen(word)*sizeof(char));
+    strcpy(temp,word);
+    ptr= strtok(temp,"\"\0");
+    if(!strcmp(ptr,word))
+    {
+        free(temp);
+        ptr = strtok(word," \n\0");
+	    while(ptr != NULL)
+	    { 
+            j=strlen(ptr);
+            arr[i]=(char*)malloc(j*sizeof(char));
+		    strcpy(arr[i],ptr);
+            i++;
+            ptr = strtok(NULL," \n\0");
+        }   
+
+    }
+    else
+    {
+       while(ptr != NULL)
+	    { 
+            j=strlen(ptr);
+            arr[i]=(char*)malloc(j*sizeof(char));
+		    strcpy(arr[i],ptr);
+            i++;
+            ptr = strtok(NULL,"\"\n\0");
+        }   
+    }
+}
+
+
+
 /*-------------------------------------------------------------------------------*/
 //The function inserts the entered arguments into an array
 void EnterWordToArray(char** arr,char *word,char *x)
 {
     char *ptr;
     int i = 0,j=0;
-    ptr = strtok(word,x);
-	while(ptr != NULL)
+    ptr = strtok(word," \n");
+	if(ptr != NULL)
 	{ 
          j=strlen(ptr);
          arr[i]=(char*)malloc(j*sizeof(char));
 		 strcpy(arr[i],ptr);
-         i++;
-         ptr = strtok(NULL,x);
+         i++;   
     }
+    ptr = strtok(NULL,"\n");
+    if(ptr!= NULL)
+        arguments(arr,ptr,i);
 }
 
 
@@ -89,8 +129,9 @@ int main()
    unsigned long Num_of_cmd=0, Cmd_length=0;
     char buf[BUFSIZ];
     char temp[510];
-    char tempsize[510],tempApostropy[510];
+    char tempSize[510],tempApostropy[510],tempSpace[510];
     char **arr;
+    char* ptr;
     int j;
    
 
@@ -100,19 +141,27 @@ int main()
     
     while(strcmp(temp,"done\n"))
     {
-
-        strcpy(tempsize,temp);
+        strcpy(tempSpace,temp);
+        ptr = strtok(tempSpace," \0");
+        strcpy(tempSize,temp);
         strcpy(tempApostropy,temp);
-        j=NumberOfWards(tempsize," \"\n");
+        j=NumberOfWards(tempSize," \"\n");
         arr=(char**)malloc((j+1)*sizeof(char*));
         if(arr == NULL)
         {
             printf("ERR\n");
             exit(1);
         }
-        arr[j]=NULL;
-            
-        EnterWordToArray(arr,temp," \"\n");
+        
+        arr[j]=NULL;            
+        if(!strcmp(ptr,"\n") && strlen(temp)>1)
+        {
+            ptr=strtok(tempApostropy,"\n");
+            arr[0]=(char*)malloc(sizeof(char));
+            strcpy(arr[0],"");  
+        }
+        else
+            EnterWordToArray(arr,temp," \"\n");
         
         if(arr[0]!=NULL && !strcmp(arr[0],"cd"))
         {
@@ -154,4 +203,12 @@ int main()
 
 return 0;
 }
+
+
+
+
+
+
+
+
 
