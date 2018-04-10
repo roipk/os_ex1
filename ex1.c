@@ -33,8 +33,10 @@ int NumberOfWards(char *word, char *x)
                count++;
         }        
     }
+   // printf("count=%d\n",count);
     if(count>0)
-        return 0;
+        return -1;
+    //printf("in\n");
 	int numword = 0;
 	char *ptr;
 	ptr = strtok(word,x);
@@ -58,7 +60,6 @@ void arguments(char** arr,char *word, int i)
     ptr= strtok(temp,"\"\0");
     if(!strcmp(ptr,word))
     {
-        free(temp);
         ptr = strtok(word," \n\0");
 	    while(ptr != NULL)
 	    { 
@@ -146,23 +147,30 @@ int main()
         strcpy(tempSize,temp);
         strcpy(tempApostropy,temp);
         j=NumberOfWards(tempSize," \"\n");
-        arr=(char**)malloc((j+1)*sizeof(char*));
+        if(j!= -1)
+            arr=(char**)malloc((j+1)*sizeof(char*));
+        else
+             arr=(char**)malloc((sizeof(char*)));
         if(arr == NULL)
         {
             printf("ERR\n");
             exit(1);
         }
-        
-        arr[j]=NULL;            
-        if(!strcmp(ptr,"\n") && strlen(temp)>1)
-        {
-            ptr=strtok(tempApostropy,"\n");
-            arr[0]=(char*)malloc(sizeof(char));
-            strcpy(arr[0],"");  
+        if(j!=-1)
+        {      
+            arr[j]=NULL; 
+            if(!strcmp(ptr,"\n") && strlen(temp)>1)
+            {
+                ptr=strtok(tempApostropy,"\n");
+                arr[0]=(char*)malloc(sizeof(char));
+                strcpy(arr[0],"");  
+            }
+            else
+                EnterWordToArray(arr,temp," \"\n");
         }
         else
-            EnterWordToArray(arr,temp," \"\n");
-        
+            arr[0]=NULL;
+            
         if(arr[0]!=NULL && !strcmp(arr[0],"cd"))
         {
             if(arr[1]!=NULL)
@@ -191,11 +199,11 @@ int main()
                 wait(NULL);
             }
         }
-    
+    freearr(arr,j);
 	printf("%s@%s>",pwp->pw_name,getcwd(buf, sizeof(buf)));
     fgets(temp,sizeof(temp),stdin);
     }
-    freearr(arr,j);
+    
     printf("Num of cmd: %lu\n",Num_of_cmd);
     printf("Cmd length: %lu\n",Cmd_length);
     printf("Bye !\n");
